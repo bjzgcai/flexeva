@@ -1,4 +1,4 @@
-<center># Lightweight Evaluation for Agentic ML Workload Optimization with Resilient Anchor State</center>
+<h1 align="center">Lightweight Evaluation for Agentic ML Workload Optimization with Resilient Anchor State</h1>
 
 **FlexEva is an incremental performance evaluation framework for distributed training optimization.** It enables developers and optimization agents to evaluate successive program changes without repeating the entire evaluation pipeline for every candidate.
 
