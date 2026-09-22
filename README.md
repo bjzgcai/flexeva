@@ -1,6 +1,6 @@
 <h1 align="center">Lightweight Evaluation for Agentic ML Workload Optimization with Resilient Anchor State</h1>
 
-**FlexEva is an incremental performance evaluation framework for distributed training optimization.** It enables developers and optimization agents to evaluate successive program changes without repeating the entire evaluation pipeline for every candidate.
+**FlexEva is an incremental performance evaluation framework for distributed ML workload optimization with LLM agents.** It enables developers and optimization agents to evaluate successive program changes without repeating the entire evaluation pipeline for every candidate.
 
 FlexEva connects program structure to the execution trace and performance feedback through an association layer (AL). When a candidate changes, it uses these associations and execution dependencies to identify which regions require reevaluation and which existing results remain reusable. Numerical grounding resolves data-dependent decisions, such as MoE routing and dispatch structure, so that evaluation can proceed without executing the training workload on physical accelerators.
 
@@ -10,7 +10,7 @@ By reducing repeated execution, trace processing, and feedback computation, Flex
 
 ## Repository Status
 
-This repository is still being prepared and does not yet contain the complete implementation. For the complete code and evaluation artifacts, please refer to [the FlexEva artifact evaluation repository](https://github.com/SpaceVector/flexeva-ae).
+This repository is still being prepared for usability. For the evaluation artifacts, please refer to [the FlexEva artifact evaluation repository](https://github.com/SpaceVector/flexeva-ae).
 
 ## Citation
 
