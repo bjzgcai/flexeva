@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Apache-2.0
 """Run Python with Maya's FakeCUDA libraries bound over CUDA library paths."""
 
 import argparse

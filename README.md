@@ -77,4 +77,4 @@ If you use FlexEva in your research, please cite our paper:
 
 ## License
 
-Repository licensing is described in [LICENSE](LICENSE). Imported implementation components retain their original license terms; see [third-party notices](THIRD_PARTY_NOTICES.md).
+FlexEva is licensed under the [Apache License 2.0](LICENSE), matching the artifact evaluation repository. Third-party dependencies retain their respective licenses; see [third-party notices](THIRD_PARTY_NOTICES.md).

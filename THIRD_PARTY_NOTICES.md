@@ -1,23 +1,8 @@
-# License notices
+# Third-party license notices
 
-The repository's top-level [LICENSE](LICENSE) contains the Apache License 2.0.
-The imported components listed below retain their existing notices and license
-terms; the top-level license does not replace those terms.
-
-## FlexEva implementation
-
-The implementation imported from [SpaceVector/flexeva](https://github.com/SpaceVector/flexeva)
-in the following directories is covered by the MIT notice in
-[LICENSES/FlexEva-MIT.txt](LICENSES/FlexEva-MIT.txt):
-
-- `cpp/`
-- `backends/maya/cpp/fake_cuda/`, except the vendored JSON header below
-- `src/flexeva/`
-- `workload-runtime/`
-- `tools/run_fake_cuda.py`, adapted from the implementation's launch helper
-
-Copyright (c) 2026 FlexEva authors. The workload runtime also retains its own
-`workload-runtime/LICENSE`.
+FlexEva's implementation is licensed under the [Apache License 2.0](LICENSE).
+The third-party components listed below retain their original copyright notices
+and license terms.
 
 ## JSON for Modern C++
 
