@@ -6,7 +6,7 @@ FlexEva evaluates successive changes to distributed training programs while reus
 
 The frontends analyze a selected mutable source region and capture its execution. Maya intercepts CUDA, cuBLAS, and NCCL calls to generate a normalized trace without running GPU kernels. Dependencies and the association layer (AL) connect code changes to affected trace outputs, allowing later candidates to retain compatible outputs and reuse feedback computation. Equivalent logical ranks can share a representative execution selected before workload initialization.
 
-This is the implementation repository for [*Lightweight Evaluation for Agentic ML Workload Optimization with Resilient Anchor State*](https://doi.org/10.1145/3842654.3848545). Paper experiments and reproduction instructions live in the separate [artifact evaluation repository](https://github.com/SpaceVector/flexeva-ae).
+This is the implementation repository for the EuroSys 2027 paper [*Lightweight Evaluation for Agentic ML Workload Optimization with Resilient Anchor State*](https://doi.org/10.1145/3842654.3848545). Paper experiments and reproduction instructions live in the separate [artifact evaluation repository](https://github.com/SpaceVector/flexeva-ae).
 
 ## Components
 
