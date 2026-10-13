@@ -56,7 +56,7 @@ Workloads specify a mutable source region, an execution window, and fixed inputs
 
 Numerical decisions that a dry run cannot resolve require workload-registered **Ground** handlers with real inputs. Missing numerical facts fail explicitly. Python and standalone C++ workloads support Ground; Ground callbacks inside a Python-to-C++ extension are not yet supported. Fixed communication groups and explicit collective/P2P operations are modeled; distributed launchers, DDP/FSDP, arbitrary external side effects, and general alias analysis are outside the current contract.
 
-Maya uses a fixed process context with the Torch CUDA caching allocator disabled. Host code may execute again to reconstruct program state, while compatible normalized trace outputs and feedback state are reused. Simulation timings should distinguish the initial evaluation, a refresh after a real change, and a no-op refresh; compilation and library loading are separate preparation costs.
+Maya uses a fixed process context with the Torch CUDA caching allocator disabled. Host code may execute again to reconstruct program state, while compatible normalized trace outputs and feedback state are reused.
 
 ## Citation
 
@@ -77,4 +77,4 @@ If you use FlexEva in your research, please cite our paper:
 
 ## License
 
-FlexEva is licensed under the [Apache License 2.0](LICENSE), matching the artifact evaluation repository. Third-party dependencies retain their respective licenses; see [third-party notices](THIRD_PARTY_NOTICES.md).
+FlexEva is licensed under the [Apache License 2.0](LICENSE). Third-party dependencies retain their respective licenses; see [third-party notices](THIRD_PARTY_NOTICES.md).
