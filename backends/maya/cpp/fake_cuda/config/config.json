@@ -1,0 +1,782 @@
+{
+  "driver_version": 13000,
+  "device_count": 8,
+  "devices": [
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000001",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 13,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            },
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000002",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 19,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            },
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000003",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 44,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            },
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000004",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 48,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            },
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000005",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 193,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            },
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000006",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 198,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            },
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000007",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 223,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            },
+    {
+                // 基础参数
+                "name": "NVIDIA A100-SXM4-80GB",
+                "uuid": "00000000-0000-4000-8000-000000000008",
+                "DeviceTotalMem": 85899345920,                                                               // 全局内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_CLOCK_RATE": 1410000,                                                  // 时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_MEMORY_CLOCK_RATE": 1215000,                                         // 内存时钟频率（kHz）
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_MEMORY_BUS_WIDTH": 5120,                                      // 显存位宽 （bit）
+                "CU_DEVICE_ATTRIBUTE_MAX_PITCH": 2147483647,                         // pitch 是指在二维数组中，每一行数据的字节数（包括为了内存对齐而添加的填充字节）。
+                // 计算能力
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR": 8,                                      // 计算能力主版本号
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR": 0,                                       // 计算能力次版本号
+                // 性能与带宽相关
+                "CU_DEVICE_ATTRIBUTE_SINGLE_TO_DOUBLE_PRECISION_PERF_RATIO": 2,                         // 单精度与双精度性能比
+                // 线程块配置
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK": 1024,                                  // 每个线程块的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X": 1024,                                        // 线程块在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y": 1024,                                        // 线程块在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z": 64,                                        // 线程块在Z维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X": 2147483647,                                   // 网格在X维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y": 65535,                                        // 网格在Y维度的最大尺寸
+                "CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z": 65535,                                    // 网格在Z维度的最大尺寸
+                // Warp和SM配置
+                "CU_DEVICE_ATTRIBUTE_WARP_SIZE": 32,                                            // Warp大小
+                "CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT": 108,                               // 多处理器数量
+                "CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_MULTIPROCESSOR": 2048,                  // 每个多处理器的最大线程数
+                "CU_DEVICE_ATTRIBUTE_MAX_BLOCKS_PER_MULTIPROCESSOR": 32,           // 每个多处理器的最大线程块数
+                // 共享内存
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK": 49152,                   // 每个线程块的最大共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_MULTIPROCESSOR": 167936,       // 每SM共享内存（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAX_SHARED_MEMORY_PER_BLOCK_OPTIN": 166912,    // 每个线程块在使用“opt-in”机制时可用的最大共享内存容量（bytes），在需要大量共享内存的高性能计算或深度学习算子中，开发者可以通过这个属性判断是否可以使用更大的共享内存，从而优化性能。
+                // 常量内存和缓存
+                "CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY": 65536,                                     // 常量内存总量（bytes）
+                "CU_DEVICE_ATTRIBUTE_L2_CACHE_SIZE": 41943040,                                       // L2缓存大小（bytes）
+                // 寄存器
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_BLOCK": 65536,                              // 每个线程块的最大寄存器数
+                "CU_DEVICE_ATTRIBUTE_MAX_REGISTERS_PER_MULTIPROCESSOR": 65536,             // 每个多处理器的最大寄存器数
+                // 特殊功能支持
+                "CU_DEVICE_ATTRIBUTE_TENSOR_MAP_ACCESS_SUPPORTED": 0,                       // 张量映射访问支持
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS": 0,                  // 统一函数指针支持
+                // 统一内存和托管内存
+                "CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING": 1,                                // 统一地址支持
+                "CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY": 1,                                    // 托管内存支持
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS": 1,                 // 托管内存的并发访问支持
+                "CU_DEVICE_ATTRIBUTE_DIRECT_MANAGED_MEM_ACCESS_FROM_HOST": 0,   // 主机对托管内存的直接访问支持
+                // 页面内存
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS": 0,                 // 页面内存访问支持
+                "CU_DEVICE_ATTRIBUTE_PAGEABLE_MEMORY_ACCESS_USES_HOST_PAGE_TABLES": 0,          // 页面内存访问使用主机页表支持
+                // 虚拟内存
+                "CU_DEVICE_ATTRIBUTE_VIRTUAL_MEMORY_MANAGEMENT_SUPPORTED": 1,       // 虚拟内存管理支持
+                "CU_DEVICE_ATTRIBUTE_MEMORY_POOLS_SUPPORTED": 1,                    // 内存池支持
+                // 并发与并行特性
+                "CU_DEVICE_ATTRIBUTE_CONCURRENT_KERNELS": 1,                       // 并发内核支持
+                "CU_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT": 3,                      // 异步引擎数量
+                "CU_DEVICE_ATTRIBUTE_STREAM_PRIORITIES_SUPPORTED": 1,       // 流优先级支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_LAUNCH": 1,                 // 协同启动支持
+                // 缓存配置
+                "CU_DEVICE_ATTRIBUTE_GLOBAL_L1_CACHE_SUPPORTED": 1,                     // 全局L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_LOCAL_L1_CACHE_SUPPORTED": 1,                      // 本地L1缓存支持
+                "CU_DEVICE_ATTRIBUTE_MAX_PERSISTING_L2_CACHE_SIZE": 26214400,                   // 最大持久化L2缓存大小（bytes）
+                // IPC和通信
+                "CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED": 1,                       // IPC事件支持
+                "CU_DEVICE_ATTRIBUTE_MEMPOOL_SUPPORTED_HANDLE_TYPES": 9,      // 内存池支持的句柄类型
+                "CU_DEVICE_ATTRIBUTE_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR_SUPPORTED": 1,           // 支持的句柄类型：POSIX文件描述符
+                // 其他重要属性
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_MODE": 0,                                          // 计算模式
+                "CU_DEVICE_ATTRIBUTE_ECC_ENABLED": 1,                            // ECC启用状态
+                "CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY": 1,                       // 主机内存映射支持
+                "CU_DEVICE_ATTRIBUTE_HOST_REGISTER_SUPPORTED": 1,                          // 主机注册支持
+                // 纹理属性
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT": 512,                                      // 纹理对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_TEXTURE_PITCH_ALIGNMENT": 32,                                // 纹理pitch对齐（bytes）
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_WIDTH": 131072,                       // 最大2D纹理宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_HEIGHT": 65536,                       // 最大2D纹理高度
+                //Surface属性
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_WIDTH": 131072,                       // 最大2D表面宽度
+                "CU_DEVICE_ATTRIBUTE_MAXIMUM_SURFACE2D_HEIGHT": 65536,                       // 最大2D表面高度
+                "CU_DEVICE_ATTRIBUTE_SURFACE_ALIGNMENT": 512,                                      // 表面对齐（bytes）
+                //pcie属性
+                "CU_DEVICE_ATTRIBUTE_PCI_BUS_ID": 227,                                             // PCI总线ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID": 0,                                           // PCI设备ID
+                "CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID": 0,                                           // PCI域ID
+
+                "CU_DEVICE_ATTRIBUTE_TCC_DRIVER": 0,                                                // TCC驱动程序支持
+                "CU_DEVICE_ATTRIBUTE_HOST_NATIVE_ATOMIC_SUPPORTED": 0,               // 主机本地原子操作支持
+                "CU_DEVICE_ATTRIBUTE_COMPUTE_PREEMPTION_SUPPORTED": 1,          // 计算抢占支持
+                "CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM": 1, // 注册内存使用主机指针支持
+                "CU_DEVICE_ATTRIBUTE_COOPERATIVE_MULTI_DEVICE_LAUNCH": 1, // 多设备协同启动支持
+                "CU_DEVICE_ATTRIBUTE_MAX_ACCESS_POLICY_WINDOW_SIZE": 134213632, // 最大访问策略窗口大小（bytes）
+                "CU_DEVICE_ATTRIBUTE_SPARSE_CUDA_ARRAY_SUPPORTED": 1, // 稀疏CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_READ_ONLY_HOST_REGISTER_SUPPORTED": 1, // 只读主机注册支持
+                "CU_DEVICE_ATTRIBUTE_TIMELINE_SEMAPHORE_INTEROP_SUPPORTED": 1, // 时间线信号量互操作支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_FLUSH_WRITES_OPTIONS": 1, // GPU直接RDMA写入刷新选项支持
+                "CU_DEVICE_ATTRIBUTE_GPU_DIRECT_RDMA_WRITES_ORDERING": 0, // GPU直接RDMA写入排序支持
+                "CU_DEVICE_ATTRIBUTE_DEFERRED_MAPPING_CUDA_ARRAY_SUPPORTED": 1, // 延迟映射CUDA数组支持
+                "CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH": 0                                              // 集群启动支持
+            }
+  ]
+}

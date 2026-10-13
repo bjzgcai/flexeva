@@ -1,0 +1,7 @@
+libcuda.so.1 {
+  global:
+    cu*;
+    *;
+  local:
+    *;
+};

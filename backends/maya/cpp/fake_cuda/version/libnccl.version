@@ -1,0 +1,7 @@
+libnccl.so.2 {
+  global:
+    nccl*;
+    *;
+  local:
+    *;
+};

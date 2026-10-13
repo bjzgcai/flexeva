@@ -1,0 +1,7 @@
+libcublas.so.12 {
+  global:
+    cublas*;
+    *;
+  local:
+    *;
+};
