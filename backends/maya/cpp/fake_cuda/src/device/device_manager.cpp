@@ -403,7 +403,7 @@ CUcontext DeviceManager::getContextForDevice(int dev_id) const noexcept{
 }
 
 
-cudaError_t DeviceManager::allocateMemory(void** devPtr, size_t size, bool legacy_tracked) noexcept{
+cudaError_t DeviceManager::allocateMemory(void** devPtr, size_t size) noexcept{
     if (!devPtr) return cudaErrorInvalidValue;
     if (!size) { *devPtr = nullptr; return cudaSuccess; }
     if (!isInitialized()) return cudaErrorInitializationError;
@@ -438,7 +438,7 @@ cudaError_t DeviceManager::allocateMemory(void** devPtr, size_t size, bool legac
         if (free == arena.free_ranges.end()) return cudaErrorMemoryAllocation;
         void* ptr = static_cast<char*>(arena.base) + free->first;
         // Allocate metadata before changing permissions or consuming a range.
-        const auto inserted = allocation_map.emplace(ptr, AllocInfo{size, reserved, currentDevice, legacy_tracked});
+        const auto inserted = allocation_map.emplace(ptr, AllocInfo{size, reserved, currentDevice});
         if (!inserted.second) return cudaErrorMemoryAllocation;
         if (mprotect(ptr, reserved, PROT_READ | PROT_WRITE) != 0) {
             allocation_map.erase(inserted.first);
@@ -459,8 +459,7 @@ cudaError_t DeviceManager::allocateMemory(void** devPtr, size_t size, bool legac
     }
 }
 
-cudaError_t DeviceManager::freeMemory(void* devPtr, bool& legacy_tracked) noexcept{
-    legacy_tracked = false;
+cudaError_t DeviceManager::freeMemory(void* devPtr) noexcept{
     if (devPtr == nullptr) return cudaSuccess;
     std::lock_guard<std::mutex> lock(alloc_mutex);
     auto it = allocation_map.find(devPtr);
@@ -495,7 +494,6 @@ cudaError_t DeviceManager::freeMemory(void* devPtr, bool& legacy_tracked) noexce
         }
         devices[info.device_id].DeviceUsedMem -= info.size;
         allocation_map.erase(it);
-        legacy_tracked = info.legacy_tracked;
         return cudaSuccess;
     } catch (...) {
         return cudaErrorMemoryAllocation;

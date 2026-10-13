@@ -2,8 +2,7 @@
 #include "utils.hpp"
 #include "fake_device_core.h"
 #include "function_registry.hpp"
-#include "kernel_arg_parsers.h"
-#include "trace_log.hpp"
+#include "ras_capture.h"
 
 namespace {
 cudaError_t direct_kernel(const void* func, dim3 grid, dim3 block,
@@ -14,10 +13,6 @@ cudaError_t direct_kernel(const void* func, dim3 grid, dim3 block,
         fakecuda_ras_fail("invalid direct kernel launch arguments");
         return cudaErrorInvalidValue;
     }
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
-    // Native FakeCUDA execution updates stream progress in both modes. No
-    // argument parser, JSON payload, or synthetic error-query record is used.
     fake_stream_mark_work_enqueued(stream);
     auto r = fakecuda::ras::record_v2(FAKECUDA_RAS_KERNEL);
     r.api_kind = api_kind;
@@ -44,7 +39,6 @@ cudaError_t direct_kernel(const void* func, dim3 grid, dim3 block,
 
 API cudaError_t cudaLaunchHostFunc(cudaStream_t stream, cudaHostFn_t fn, void *userData){
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return cudaErrorNotSupported; }
-    fakecuda::capture::WrapperCall capture_call;
     fprintf(stderr, "[fakecuda] cudaLaunchHostFunc() called.\n");
     fake_setLastError(cudaSuccess);
     return cudaSuccess;
@@ -64,41 +58,9 @@ REGISTER_CUDA_FUNCTION(cudaLaunchHostFunc);
 API cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim, void **args, size_t sharedMem, cudaStream_t stream){
     if (fakecuda::ras::active()) return direct_kernel(func, gridDim, blockDim, sharedMem, stream,
                                                      FAKECUDA_RAS_API_CUDA_LAUNCH_KERNEL);
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaLaunchKernel() called.");
     fake_stream_mark_work_enqueued(stream);
-    // The remaining body only produces trace/argument diagnostics; stream
-    // progress above is the ordinary FakeCUDA execution effect in every mode.
-    if (!fakecuda::capture::generates_trace()) return cudaSuccess;
-    auto* ki = KernelRegistry::getInstance().FindByHost(func);
-    std::string kernel_name = ki ? ki->readableName : std::string("(unknown)");
-    const bool defer_trace_until_wrapper_exit =
-        fakecuda::host_timing::should_defer_trace_until_wrapper_exit();
-    auto payload = make_trace_payload();
-    if (payload) payload->add_string("kernel", kernel_name);
-    if (payload) payload->add_uint("grid_x", gridDim.x);
-    if (payload) payload->add_uint("grid_y", gridDim.y);
-    if (payload) payload->add_uint("grid_z", gridDim.z);
-    if (payload) payload->add_uint("block_x", blockDim.x);
-    if (payload) payload->add_uint("block_y", blockDim.y);
-    if (payload) payload->add_uint("block_z", blockDim.z);
-    if (payload) payload->add_size("shared_mem", sharedMem);
-    if (payload) payload->add_uint64("stream_id", trace_stream_id(stream));
-    if (!defer_trace_until_wrapper_exit) {
-        TRACE_API_EX(CUDART, "cudaLaunchKernel", "kernel_launch", payload);
-        TRACE_SYNTHETIC_CUDA_GET_LAST_ERROR("cudaLaunchKernel");
-    }
-    LOG_INFO(CUDART, "cudaLaunchKernel %s grid=(%u,%u,%u) block=(%u,%u,%u) smem=%zu stream=%p",
-             kernel_name.c_str(),
-             gridDim.x, gridDim.y, gridDim.z,
-             blockDim.x, blockDim.y, blockDim.z,
-             sharedMem, (void*)stream);
-    dispatchKernelArgs(ki->readableName, args, gridDim, blockDim, sharedMem); // ← 新增这一行
-    if (defer_trace_until_wrapper_exit) {
-        TRACE_API_EX(CUDART, "cudaLaunchKernel", "kernel_launch", payload);
-        TRACE_SYNTHETIC_CUDA_GET_LAST_ERROR("cudaLaunchKernel");
-    }
+    fake_setLastError(cudaSuccess);
     return cudaSuccess;
 }
 REGISTER_CUDA_FUNCTION(cudaLaunchKernel);
@@ -121,8 +83,7 @@ API cudaError_t cudaLaunchKernelExC(const cudaLaunchConfig_t *config, const void
                              config->dynamicSmemBytes, config->stream,
                              FAKECUDA_RAS_API_CUDA_LAUNCH_KERNEL_EX_C);
     }
-    fakecuda::capture::WrapperCall capture_call;
-    fprintf(stderr, "[fakecuda] cudaLaunchKernelExC() called.\n");
+    LOG_DEBUG(CUDART, "cudaLaunchKernelExC() called.");
     fake_setLastError(cudaSuccess);
     return cudaSuccess;
 }

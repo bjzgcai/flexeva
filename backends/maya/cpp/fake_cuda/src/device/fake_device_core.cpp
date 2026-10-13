@@ -1,8 +1,6 @@
 #include "fake_device_core.h"
 #include "device_manager.hpp"
 #include "fake_types.h"
-#include "capture_scope.h"
-#include "ras_capture.h"
 
 DeviceManager& GPU_Devices = DeviceManager::getInstance();
 
@@ -62,20 +60,9 @@ extern "C" {
         if(!fake_isInitialized()){
             fake_initialize();
         }
-        const bool legacy_tracked = !fakecuda::ras::active();
-        const auto result = GPU_Devices.allocateMemory(devPtr, size, legacy_tracked);
-        if (legacy_tracked && result == cudaSuccess && devPtr != nullptr && *devPtr != nullptr)
-            fakecuda::capture::resource_created(FAKECUDA_ALLOCATION, reinterpret_cast<uintptr_t>(*devPtr), size);
-        return result;
+        return GPU_Devices.allocateMemory(devPtr, size);
     }
     cudaError_t fake_freeMemory(void* devPtr){
-        bool legacy_tracked = false;
-        const auto result = GPU_Devices.freeMemory(devPtr, legacy_tracked);
-        // Native lifetime can outlive the capture that created the allocation
-        // (for example, a Python exception traceback retaining a Tensor).
-        // Retire only the registry that owns this allocation's generation.
-        if (result == cudaSuccess && devPtr != nullptr && legacy_tracked)
-            fakecuda::capture::retire_legacy_resource(FAKECUDA_ALLOCATION, reinterpret_cast<uintptr_t>(devPtr));
-        return result;
+        return GPU_Devices.freeMemory(devPtr);
     }
 }

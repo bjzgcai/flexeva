@@ -142,7 +142,6 @@ class DeviceManager{
             size_t size;
             size_t reserved;
             int device_id;
-            bool legacy_tracked;
         };
         struct DeviceArena {
             void* base = nullptr;
@@ -189,7 +188,7 @@ class DeviceManager{
         bool initialize();
         void setDevice(int device_id) const noexcept;
         void getDevice(int* device_id) const noexcept;
-        cudaError_t allocateMemory(void** devPtr, size_t size, bool legacy_tracked) noexcept;
-        cudaError_t freeMemory(void* devPtr, bool& legacy_tracked) noexcept;
+        cudaError_t allocateMemory(void** devPtr, size_t size) noexcept;
+        cudaError_t freeMemory(void* devPtr) noexcept;
         bool allocationRange(uint64_t address, uint64_t& base, uint64_t& bytes) const noexcept;
 };

@@ -5,21 +5,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/liboutput)
 set(FAKECUDA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 add_compile_definitions(PROJECT_ROOT_DIR="${FAKECUDA_SOURCE_DIR}")
 
-# # ⭐ 直接启用 ASan（无开关）
-# message(STATUS "=== AddressSanitizer ENABLED ===")
-# add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g -O1)
-# add_link_options(-fsanitize=address)
-
 # fake device manager library
 set(DEVICE_LIB_SOURCES
     src/device/device_manager.cpp
     src/device/fake_device_core.cpp
-    src/common/utils.cpp
-    src/common/capture_scope.cpp
     src/common/ras_capture.cpp
 )
 add_library(fake_cuda_core SHARED ${DEVICE_LIB_SOURCES})
-target_link_libraries(fake_cuda_core PRIVATE ${CMAKE_DL_LIBS})
 target_include_directories(fake_cuda_core PUBLIC ${FAKECUDA_SOURCE_DIR}/include/device ${FAKECUDA_SOURCE_DIR}/include/common)
 
 
@@ -38,7 +30,7 @@ set(RUNTIME_LIB_SOURCES
 
 )
 add_library(cudart SHARED ${RUNTIME_LIB_SOURCES})
-target_link_libraries(cudart PRIVATE fake_cuda_core ${CMAKE_DL_LIBS})
+target_link_libraries(cudart PRIVATE fake_cuda_core)
 target_include_directories(cudart PUBLIC ${FAKECUDA_SOURCE_DIR}/include/runtime ${FAKECUDA_SOURCE_DIR}/include/common)
 
 set_target_properties(cudart PROPERTIES

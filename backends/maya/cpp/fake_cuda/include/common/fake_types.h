@@ -3540,8 +3540,6 @@ struct ncclComm {
     ncclResult_t asyncError;
     ncclUniqueId commId;
     int blocking;
-    int* globalRanks;
-    unsigned long long splitSequence;
 };
 typedef struct ncclComm* ncclComm_t;
 

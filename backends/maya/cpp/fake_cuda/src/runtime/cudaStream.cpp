@@ -1,12 +1,11 @@
 #include "fake_runtime_api.hpp"
 #include "utils.hpp"
 #include "function_registry.hpp"
-#include "trace_log.hpp"
+#include "ras_capture.h"
 
 
 API cudaError_t cudaStreamAddCallback(cudaStream_t stream, cudaStreamCallback_t callback, void *userData, unsigned int flags){
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return cudaErrorNotSupported; }
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaStreamAddCallback() called.");
 
     if (callback) {
@@ -23,7 +22,6 @@ REGISTER_CUDA_FUNCTION(cudaStreamAddCallback);
 
 API cudaError_t cudaStreamBeginCapture(cudaStream_t stream, enum cudaStreamCaptureMode mode){
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return cudaErrorNotSupported; }
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaStreamBeginCapture() called.");
 
     FakeStream* fs = to_fake_stream(stream);
@@ -58,8 +56,6 @@ API cudaError_t cudaStreamCreate(cudaStream_t *pStream){
         fakecuda_ras_fail("Invalid cudaStreamCreate arguments");
         return cudaErrorInvalidValue;
     }
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaStreamCreate() called.");
     if (!pStream) {
         fake_setLastError(cudaErrorInvalidValue);
@@ -89,8 +85,6 @@ API cudaError_t cudaStreamCreate(cudaStream_t *pStream){
     }
 
     *pStream = to_cuda_stream(stream);
-    fakecuda::capture::resource_created(FAKECUDA_STREAM, stream->id, 0,
-        reinterpret_cast<uintptr_t>(*pStream));
     if (fakecuda::ras::active()) {
         auto r = fakecuda::ras::record(FAKECUDA_RAS_STREAM_CREATE);
         r.stream = fakecuda::ras::address(*pStream);
@@ -105,9 +99,6 @@ API cudaError_t cudaStreamCreate(cudaStream_t *pStream){
         fake_setLastError(result);
         return result;
     }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_uint64("stream_id", stream->id);
-    TRACE_API_EX(CUDART, "cudaStreamCreate", "stream_op", payload);
 
     LOG_INFO(CUDART, "  Created stream id=%llu handle=%p", stream->id, *pStream);
 
@@ -121,8 +112,6 @@ API cudaError_t cudaStreamCreateWithPriority(cudaStream_t *pStream, unsigned int
         fakecuda_ras_fail("Invalid cudaStreamCreateWithPriority arguments");
         return cudaErrorInvalidValue;
     }
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaStreamCreateWithPriority() called.");
 
     if (!pStream) {
@@ -153,8 +142,6 @@ API cudaError_t cudaStreamCreateWithPriority(cudaStream_t *pStream, unsigned int
     }
 
     *pStream = to_cuda_stream(stream);
-    fakecuda::capture::resource_created(FAKECUDA_STREAM, stream->id, 0,
-        reinterpret_cast<uintptr_t>(*pStream));
     if (fakecuda::ras::active()) {
         auto r = fakecuda::ras::record(FAKECUDA_RAS_STREAM_CREATE);
         r.stream = fakecuda::ras::address(*pStream);
@@ -169,11 +156,6 @@ API cudaError_t cudaStreamCreateWithPriority(cudaStream_t *pStream, unsigned int
         fake_setLastError(result);
         return result;
     }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_uint64("stream_id", stream->id);
-    if (payload) payload->add_uint("flags", flags);
-    if (payload) payload->add_int("priority", priority);
-    TRACE_API_EX(CUDART, "cudaStreamCreateWithPriority", "stream_op", payload);
 
     // 为什么记录priority：
     // PyTorch高优先级stream用于通信overlap，
@@ -191,10 +173,7 @@ API cudaError_t cudaStreamDestroy(cudaStream_t stream){
         fakecuda_ras_fail("Invalid cudaStreamDestroy arguments");
         return cudaErrorInvalidValue;
     }
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaStreamDestroy() called.");
-    unsigned long long stream_id = trace_stream_id(stream);
 
     if (stream == nullptr) {
         // default stream不能被destroy
@@ -235,10 +214,6 @@ API cudaError_t cudaStreamDestroy(cudaStream_t stream){
         fake_setLastError(result);
         return result;
     }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_uint64("stream_id", stream_id);
-    TRACE_API_EX(CUDART, "cudaStreamDestroy", "stream_op", payload);
-    fakecuda::capture::resource_destroyed(FAKECUDA_STREAM, stream_id);
     delete fs;
 
     fake_setLastError(cudaSuccess);
@@ -248,7 +223,6 @@ REGISTER_CUDA_FUNCTION(cudaStreamDestroy);
 
 API cudaError_t cudaStreamEndCapture(cudaStream_t stream, cudaGraph_t *pGraph){
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return cudaErrorNotSupported; }
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaStreamEndCapture() called.");
 
     FakeStream* fs = to_fake_stream(stream);
@@ -286,7 +260,6 @@ API cudaError_t cudaStreamEndCapture(cudaStream_t stream, cudaGraph_t *pGraph){
 REGISTER_CUDA_FUNCTION(cudaStreamEndCapture);
 
 API cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream, enum cudaStreamCaptureStatus *captureStatus_out, unsigned long long *id_out __dv(0), cudaGraph_t *graph_out __dv(0), const cudaGraphNode_t **dependencies_out __dv(0), size_t *numDependencies_out __dv(0)){
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaStreamGetCaptureInfo() called.");
 
     if (!captureStatus_out) {
@@ -329,7 +302,6 @@ API cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream, enum cudaStreamCap
 }
 REGISTER_CUDA_FUNCTION(cudaStreamGetCaptureInfo);
 API cudaError_t cudaStreamGetCaptureInfo_v2(cudaStream_t stream, enum cudaStreamCaptureStatus *captureStatus_out, unsigned long long *id_out __dv(0), cudaGraph_t *graph_out __dv(0), const cudaGraphNode_t **dependencies_out __dv(0), size_t *numDependencies_out __dv(0)){
-    fakecuda::capture::WrapperCall capture_call;
     return cudaStreamGetCaptureInfo(stream, captureStatus_out, id_out, graph_out, dependencies_out, numDependencies_out);
 }
 REGISTER_CUDA_FUNCTION(cudaStreamGetCaptureInfo_v2);
@@ -338,7 +310,6 @@ REGISTER_CUDA_FUNCTION(cudaStreamGetCaptureInfo_v2);
 // PyTorch会根据priority来决定stream的调度顺序
 // 返回错误的priority会影响调度分析的准确性
 API cudaError_t cudaStreamGetPriority(cudaStream_t hStream, int *priority){
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaStreamGetPriority() called.");
 
     if (!priority) {
@@ -371,7 +342,6 @@ API cudaError_t cudaStreamGetPriority(cudaStream_t hStream, int *priority){
 REGISTER_CUDA_FUNCTION(cudaStreamGetPriority);
 
 API cudaError_t cudaStreamIsCapturing(cudaStream_t stream, enum cudaStreamCaptureStatus *pCaptureStatus){
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaStreamIsCapturing() called.");
 
     if (!pCaptureStatus) {
@@ -418,7 +388,6 @@ API cudaError_t cudaStreamQuery(cudaStream_t stream){
         r.stream = fakecuda::ras::address(stream); r.flags = 1;
         return fakecuda::ras::emit(r) ? cudaSuccess : cudaErrorUnknown;
     }
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaStreamQuery() called.");
     fake_setLastError(cudaSuccess);
     return cudaSuccess;
@@ -430,8 +399,6 @@ API cudaError_t cudaStreamSynchronize(cudaStream_t stream){
         fakecuda_ras_fail("Invalid cudaStreamSynchronize arguments");
         return cudaErrorInvalidValue;
     }
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaStreamSynchronize() called.");
     fake_stream_mark_completed_through(stream, fake_stream_enqueued_seq(stream));
     fake_mark_ready_events_visible(stream);
@@ -442,9 +409,6 @@ API cudaError_t cudaStreamSynchronize(cudaStream_t stream){
         fake_setLastError(result);
         return result;
     }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_uint64("stream_id", trace_stream_id(stream));
-    TRACE_API_EX(CUDART, "cudaStreamSynchronize", "stream_op", payload);
 
     // 永远返回完成（cudaSuccess表示stream中所有工作已完成）
 
@@ -458,8 +422,6 @@ API cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsi
         fakecuda_ras_fail("Invalid cudaStreamWaitEvent arguments");
         return cudaErrorInvalidValue;
     }
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaStreamWaitEvent() called.");
     fake_stream_mark_work_enqueued(stream);
     if (fakecuda::ras::active()) {
@@ -471,14 +433,6 @@ API cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsi
         fake_setLastError(result);
         return result;
     }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_uint64("stream_id", trace_stream_id(stream));
-    if (payload) payload->add_uint64("event_id", trace_event_id(event));
-    if (payload) payload->add_uint("flags", flags);
-    TRACE_API_EX(CUDART, "cudaStreamWaitEvent", "stream_op", payload);
-
-    // 记录stream-event依赖关系（可选，用于调度分析）
-    // TODO: 如果需要分析stream间依赖，在这里记录
 
     fake_setLastError(cudaSuccess);
     return cudaSuccess;
@@ -486,7 +440,6 @@ API cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsi
 REGISTER_CUDA_FUNCTION(cudaStreamWaitEvent);
 
 API cudaError_t cudaStreamGetFlags(cudaStream_t stream, unsigned int* flags) {
-    fakecuda::capture::WrapperCall capture_call;
     if (!flags || !fake_valid_stream(stream)) return cudaErrorInvalidValue;
     *flags = stream ? to_fake_stream(stream)->flags : 0;
     return cudaSuccess;

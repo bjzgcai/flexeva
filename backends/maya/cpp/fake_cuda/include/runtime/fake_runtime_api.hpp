@@ -26,7 +26,6 @@ struct FakeStream {
 struct CUevent_st {
     unsigned long long id;
     unsigned int flags;
-    unsigned long long last_stream_id;
     cudaStream_t last_stream_handle;
     unsigned long long recorded_stream_seq;
     unsigned long long pending_query_polls;
@@ -69,16 +68,6 @@ static inline bool fake_valid_stream(cudaStream_t stream) {
 static inline bool fake_valid_event(cudaEvent_t event) {
     std::lock_guard<std::mutex> lock(g_eventMutex);
     return event && g_validEvents.find(to_fake_event(event)) != g_validEvents.end();
-}
-
-static inline unsigned long long trace_stream_id(cudaStream_t stream) {
-    FakeStream* fake_stream = to_fake_stream(stream);
-    return fake_stream ? fake_stream->id : 0ULL;
-}
-
-static inline unsigned long long trace_event_id(cudaEvent_t event) {
-    CUevent_st* fake_event = to_fake_event(event);
-    return fake_event ? fake_event->id : 0ULL;
 }
 
 static inline unsigned long long fake_stream_mark_work_enqueued(
@@ -184,8 +173,4 @@ static inline void fake_mark_ready_events_visible(cudaStream_t stream_filter = n
             fake_event->pending_query_polls = 0ULL;
         }
     }
-}
-
-static inline std::uint64_t trace_pointer_id(const void* value) {
-    return static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(value));
 }

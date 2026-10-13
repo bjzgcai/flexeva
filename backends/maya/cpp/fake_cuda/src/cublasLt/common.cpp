@@ -2,7 +2,7 @@
 #include "fake_runtime_api.hpp"
 #include "utils.hpp"
 #include "cublas.hpp"
-#include "../../include/common/trace_log.hpp"
+#include "../../include/common/ras_capture.h"
 #include <algorithm>
 #include <climits>
 #include <cstring>
@@ -43,31 +43,23 @@ template <class T> T* create(std::unordered_set<T*>& set) {
 }
 
 API cublasStatus_t cublasLtCreate(cublasLtHandle_t* lightHandle) {
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     if (!lightHandle) return invalid("Invalid cuBLASLt handle output");
     auto* ctx = create(handles);
     if (!ctx) return CUBLAS_STATUS_ALLOC_FAILED;
     ctx->magic_number = 0xBEEF; ctx->stream = nullptr; *lightHandle = ctx;
-    fakecuda::capture::resource_created(FAKECUDA_BLAS_HANDLE, fakecuda::ras::address(ctx));
     if (fakecuda::ras::active()) {
         auto r = fakecuda::ras::record(FAKECUDA_RAS_BLAS_CREATE);
         r.handle = fakecuda::ras::address(ctx);
         if (!fakecuda::ras::emit(r)) { handles.erase(ctx); delete ctx; *lightHandle = nullptr; return CUBLAS_STATUS_INTERNAL_ERROR; }
         return CUBLAS_STATUS_SUCCESS;
     }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_uint64("handle_id", fakecuda::ras::address(ctx));
-    TRACE_API_EX(CUBLASLT, "cublasLtCreate", "context_op", payload);
     return CUBLAS_STATUS_SUCCESS;
 }
 
 API cublasStatus_t cublasLtDestroy(cublasLtHandle_t handle) {
-    fakecuda::capture::WrapperCall capture_call;
     if (!contains(handles, handle)) return invalid("Invalid cuBLASLt handle");
     auto id = fakecuda::ras::address(handle);
     handles.erase(handle); delete handle;
-    fakecuda::capture::resource_destroyed(FAKECUDA_BLAS_HANDLE, id);
     if (fakecuda::ras::active()) {
         auto r = fakecuda::ras::record(FAKECUDA_RAS_BLAS_DESTROY); r.handle = id;
         return fakecuda::ras::emit(r) ? CUBLAS_STATUS_SUCCESS : CUBLAS_STATUS_INTERNAL_ERROR;
@@ -77,7 +69,6 @@ API cublasStatus_t cublasLtDestroy(cublasLtHandle_t handle) {
 
 API cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t* output,
     cublasComputeType_t computeType, cudaDataType_t scaleType) {
-    fakecuda::capture::WrapperCall capture_call;
     if (!output) return invalid("Invalid cuBLASLt descriptor output");
     auto* p = create(descriptors);
     if (!p) return CUBLAS_STATUS_ALLOC_FAILED;
@@ -87,7 +78,6 @@ API cublasStatus_t cublasLtMatmulDescCreate(cublasLtMatmulDesc_t* output,
 }
 
 API cublasStatus_t cublasLtMatmulDescDestroy(cublasLtMatmulDesc_t descriptor) {
-    fakecuda::capture::WrapperCall capture_call;
     auto* p = reinterpret_cast<FakeDesc*>(descriptor);
     if (!contains(descriptors, p)) return invalid("Invalid cuBLASLt descriptor");
     descriptors.erase(p); delete p; return CUBLAS_STATUS_SUCCESS;
@@ -95,7 +85,6 @@ API cublasStatus_t cublasLtMatmulDescDestroy(cublasLtMatmulDesc_t descriptor) {
 
 API cublasStatus_t cublasLtMatmulDescSetAttribute(cublasLtMatmulDesc_t descriptor,
     cublasLtMatmulDescAttributes_t attr, const void* buf, size_t size) {
-    fakecuda::capture::WrapperCall capture_call;
     auto* p = reinterpret_cast<FakeDesc*>(descriptor);
     if (!contains(descriptors, p)) return invalid("Invalid cuBLASLt descriptor");
     bool valid = false;
@@ -115,7 +104,6 @@ API cublasStatus_t cublasLtMatmulDescSetAttribute(cublasLtMatmulDesc_t descripto
 
 API cublasStatus_t cublasLtMatrixLayoutCreate(cublasLtMatrixLayout_t* output,
     cudaDataType type, uint64_t rows, uint64_t cols, int64_t ld) {
-    fakecuda::capture::WrapperCall capture_call;
     if (!output || ld < 0) return invalid("Invalid cuBLASLt layout output");
     auto* p = create(layouts);
     if (!p) return CUBLAS_STATUS_ALLOC_FAILED;
@@ -124,7 +112,6 @@ API cublasStatus_t cublasLtMatrixLayoutCreate(cublasLtMatrixLayout_t* output,
 }
 
 API cublasStatus_t cublasLtMatrixLayoutDestroy(cublasLtMatrixLayout_t layout) {
-    fakecuda::capture::WrapperCall capture_call;
     auto* p = reinterpret_cast<FakeLayout*>(layout);
     if (!contains(layouts, p)) return invalid("Invalid cuBLASLt layout");
     layouts.erase(p); delete p; return CUBLAS_STATUS_SUCCESS;
@@ -132,7 +119,6 @@ API cublasStatus_t cublasLtMatrixLayoutDestroy(cublasLtMatrixLayout_t layout) {
 
 API cublasStatus_t cublasLtMatrixLayoutSetAttribute(cublasLtMatrixLayout_t layout,
     cublasLtMatrixLayoutAttribute_t attr, const void* buf, size_t size) {
-    fakecuda::capture::WrapperCall capture_call;
     auto* p = reinterpret_cast<FakeLayout*>(layout);
     if (!contains(layouts, p)) return invalid("Invalid cuBLASLt layout");
     bool valid = false;
@@ -154,7 +140,6 @@ API cublasStatus_t cublasLtMatrixLayoutSetAttribute(cublasLtMatrixLayout_t layou
 }
 
 API cublasStatus_t cublasLtMatmulPreferenceCreate(cublasLtMatmulPreference_t* output) {
-    fakecuda::capture::WrapperCall capture_call;
     if (!output) return invalid("Invalid cuBLASLt preference output");
     auto* p = create(preferences);
     if (!p) return CUBLAS_STATUS_ALLOC_FAILED;
@@ -162,7 +147,6 @@ API cublasStatus_t cublasLtMatmulPreferenceCreate(cublasLtMatmulPreference_t* ou
 }
 
 API cublasStatus_t cublasLtMatmulPreferenceDestroy(cublasLtMatmulPreference_t preference) {
-    fakecuda::capture::WrapperCall capture_call;
     auto* p = reinterpret_cast<Preference*>(preference);
     if (!contains(preferences, p)) return invalid("Invalid cuBLASLt preference");
     preferences.erase(p); delete p; return CUBLAS_STATUS_SUCCESS;
@@ -170,7 +154,6 @@ API cublasStatus_t cublasLtMatmulPreferenceDestroy(cublasLtMatmulPreference_t pr
 
 API cublasStatus_t cublasLtMatmulPreferenceSetAttribute(cublasLtMatmulPreference_t preference,
     cublasLtMatmulPreferenceAttributes_t attr, const void* buf, size_t size) {
-    fakecuda::capture::WrapperCall capture_call;
     auto* p = reinterpret_cast<Preference*>(preference);
     if (!contains(preferences, p)) return invalid("Invalid cuBLASLt preference");
     bool valid = false;
@@ -185,7 +168,6 @@ API cublasStatus_t cublasLtMatmulAlgoGetHeuristic(cublasLtHandle_t handle,
     cublasLtMatmulDesc_t operation, cublasLtMatrixLayout_t a, cublasLtMatrixLayout_t b,
     cublasLtMatrixLayout_t c, cublasLtMatrixLayout_t d, cublasLtMatmulPreference_t preference,
     int requested, cublasLtMatmulHeuristicResult_t results[], int* returned) {
-    fakecuda::capture::WrapperCall capture_call;
     if (!valid_handle(handle)) return invalid("Invalid cuBLASLt heuristic handle");
     if (!contains(descriptors, reinterpret_cast<FakeDesc*>(operation))) return invalid("Invalid cuBLASLt heuristic descriptor");
     if (!contains(layouts, reinterpret_cast<FakeLayout*>(a))) return invalid("Invalid cuBLASLt heuristic A layout");
@@ -204,8 +186,6 @@ API cublasStatus_t cublasLtMatmul(cublasLtHandle_t handle, cublasLtMatmulDesc_t 
     const void* B, cublasLtMatrixLayout_t b_desc, const void* beta,
     const void* C, cublasLtMatrixLayout_t c_desc, void* D, cublasLtMatrixLayout_t d_desc,
     const cublasLtMatmulAlgo_t* algo, void* workspace, size_t workspace_bytes, cudaStream_t stream) {
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     auto* md = reinterpret_cast<FakeDesc*>(descriptor);
     auto* a = reinterpret_cast<FakeLayout*>(a_desc); auto* b = reinterpret_cast<FakeLayout*>(b_desc);
     auto* c = reinterpret_cast<FakeLayout*>(c_desc); auto* d = reinterpret_cast<FakeLayout*>(d_desc);
@@ -253,12 +233,5 @@ API cublasStatus_t cublasLtMatmul(cublasLtHandle_t handle, cublasLtMatmulDesc_t 
         }
         return fakecuda::ras::emit(r) ? CUBLAS_STATUS_SUCCESS : CUBLAS_STATUS_INTERNAL_ERROR;
     }
-    auto payload = make_trace_payload();
-    if (payload) {
-        payload->add_uint64("stream_id", trace_stream_id(stream));
-        payload->add_int("m", m); payload->add_int("n", n); payload->add_int("k", k);
-        payload->add_int("batch_count", a->batch);
-    }
-    TRACE_API_EX(CUBLASLT, "cublasLtMatmul", "blas_compute", payload);
     return CUBLAS_STATUS_SUCCESS;
 }

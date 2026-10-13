@@ -30,7 +30,6 @@ API void *dlsym(void *handle, const char *symbol) {
 
 
 API CUresult cuInit(unsigned int Flags){
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuInit() called.");
         if(fake_isInitialized()) {
@@ -49,7 +48,6 @@ API CUresult cuInit(unsigned int Flags){
 REGISTER_CUDA_FUNCTION(cuInit);
 
 API CUresult cuDriverGetVersion(int* driverVersion){
-    fakecuda::capture::WrapperCall capture_call;
     try{
         LOG_DEBUG(CUDA, "cuDriverGetVersion() called.");
         // if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;
@@ -66,7 +64,6 @@ API CUresult cuDriverGetVersion(int* driverVersion){
 REGISTER_CUDA_FUNCTION(cuDriverGetVersion);
 
 API CUresult cuGetProcAddress(const char *symbol, void **pfn, int cudaVersion, cuuint64_t flags, CUdriverProcAddressQueryResult *symbolStatus){
-    fakecuda::capture::WrapperCall capture_call;
     (void)cudaVersion; (void)flags;
     if (!symbol || !pfn) return CUDA_ERROR_INVALID_VALUE;
     *pfn = FunctionRegistry::instance().get_function(symbol);
@@ -76,7 +73,6 @@ API CUresult cuGetProcAddress(const char *symbol, void **pfn, int cudaVersion, c
 REGISTER_CUDA_FUNCTION(cuGetProcAddress);
 
 API CUresult cuGetExportTable(const void **ppExportTable, const CUuuid *pExportTableId){
-    fakecuda::capture::WrapperCall capture_call;
     try{
         LOG_DEBUG(CUDA, "cuGetExportTable() called.");
         if (!ppExportTable || !pExportTableId)

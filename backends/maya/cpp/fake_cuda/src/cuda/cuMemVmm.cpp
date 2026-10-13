@@ -43,7 +43,6 @@ API CUresult cuMemAddressReserve(
     std::uint64_t addr,
     unsigned long long flags) {
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return CUDA_ERROR_NOT_SUPPORTED; }
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemAddressReserve() called.");
         if (!fake_isInitialized()) {
@@ -80,7 +79,6 @@ REGISTER_CUDA_FUNCTION(cuMemAddressReserve);
 
 API CUresult cuMemAddressFree(std::uint64_t ptr, size_t size) {
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return CUDA_ERROR_NOT_SUPPORTED; }
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemAddressFree() called.");
         if (!fake_isInitialized()) {
@@ -107,7 +105,6 @@ API CUresult cuMemCreate(
     const void* prop,
     unsigned long long flags) {
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return CUDA_ERROR_NOT_SUPPORTED; }
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemCreate() called.");
         if (!fake_isInitialized()) {
@@ -130,7 +127,6 @@ REGISTER_CUDA_FUNCTION(cuMemCreate);
 
 API CUresult cuMemRelease(std::uint64_t handle) {
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return CUDA_ERROR_NOT_SUPPORTED; }
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemRelease() called.");
         if (!fake_isInitialized()) {
@@ -152,7 +148,6 @@ API CUresult cuMemMap(
     std::uint64_t handle,
     unsigned long long flags) {
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return CUDA_ERROR_NOT_SUPPORTED; }
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemMap() called.");
         if (!fake_isInitialized()) {
@@ -175,7 +170,6 @@ REGISTER_CUDA_FUNCTION(cuMemMap);
 
 API CUresult cuMemUnmap(std::uint64_t ptr, size_t size) {
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return CUDA_ERROR_NOT_SUPPORTED; }
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemUnmap() called.");
         if (!fake_isInitialized()) {
@@ -199,7 +193,6 @@ API CUresult cuMemSetAccess(
     const void* desc,
     size_t count) {
     if (fakecuda::ras::active()) { fakecuda_ras_fail(__func__); return CUDA_ERROR_NOT_SUPPORTED; }
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemSetAccess() called.");
         if (!fake_isInitialized()) {
@@ -223,7 +216,6 @@ API CUresult cuMemGetAllocationGranularity(
     size_t* granularity,
     const void* prop,
     int option) {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemGetAllocationGranularity() called.");
         if (!fake_isInitialized()) {
@@ -248,7 +240,6 @@ API CUresult cuMemExportToShareableHandle(
     std::uint64_t handle,
     int handleType,
     unsigned long long flags) {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemExportToShareableHandle() called.");
         if (!fake_isInitialized()) {
@@ -272,7 +263,6 @@ API CUresult cuMemImportFromShareableHandle(
     std::uint64_t* handle,
     void* osHandle,
     int shHandleType) {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemImportFromShareableHandle() called.");
         if (!fake_isInitialized()) {
@@ -297,7 +287,6 @@ API CUresult cuMemsetD32Async(
     unsigned int value,
     size_t count,
     cudaStream_t stream) {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuMemsetD32Async() called.");
         if (!fake_isInitialized()) {
@@ -325,7 +314,6 @@ API CUresult cuStreamWriteValue32(
     std::uint64_t addr,
     std::uint32_t value,
     unsigned int flags) {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuStreamWriteValue32() called.");
         if (!fake_isInitialized()) {
@@ -347,7 +335,6 @@ API CUresult cuStreamWriteValue32(
 REGISTER_CUDA_FUNCTION(cuStreamWriteValue32);
 
 API CUresult cuGetErrorString(CUresult error, const char** pStr) {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuGetErrorString() called.");
         if (pStr == nullptr) {

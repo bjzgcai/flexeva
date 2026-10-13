@@ -4,7 +4,6 @@
 
 
 API CUresult cuDeviceGetName(char *name, int len, CUdevice dev){
-    fakecuda::capture::WrapperCall capture_call;
     try{
         LOG_DEBUG(CUDA, "cuDeviceGetName() called.");
         if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;
@@ -22,7 +21,6 @@ API CUresult cuDeviceGetName(char *name, int len, CUdevice dev){
 REGISTER_CUDA_FUNCTION(cuDeviceGetName);
 
 API CUresult cuDeviceGetCount(int *count){
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuDeviceGetCount() called.");
         if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;
@@ -39,7 +37,6 @@ REGISTER_CUDA_FUNCTION(cuDeviceGetCount);
 
 API CUresult cuDeviceGet(CUdevice *device, int ordinal)
 {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuDeviceGet() called.");
         if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;
@@ -56,7 +53,6 @@ API CUresult cuDeviceGet(CUdevice *device, int ordinal)
 REGISTER_CUDA_FUNCTION(cuDeviceGet);
 
 API CUresult cuDeviceGetAttribute(int *pi, CUdevice_attribute attrib, CUdevice dev){
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuDeviceGetAttribute() called.");
         if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;
@@ -73,7 +69,6 @@ REGISTER_CUDA_FUNCTION(cuDeviceGetAttribute);
 
 API CUresult cuDeviceTotalMem(size_t *bytes, CUdevice dev)
 {
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuDeviceTotalMem() called.");
         if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;
@@ -89,7 +84,6 @@ API CUresult cuDeviceTotalMem(size_t *bytes, CUdevice dev)
 REGISTER_CUDA_FUNCTION(cuDeviceTotalMem);
 
 API CUresult cuDevicePrimaryCtxGetState(CUdevice dev, unsigned int* flags, int* active){
-    fakecuda::capture::WrapperCall capture_call;
     try {
         LOG_DEBUG(CUDA, "cuDevicePrimaryCtxGetState() called.");
         if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;

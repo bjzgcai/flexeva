@@ -2,11 +2,9 @@
 #include "utils.hpp"
 #include "fake_device_core.h"
 #include "function_registry.hpp"
-#include "trace_log.hpp"
+#include "ras_capture.h"
 
 API cudaError_t cudaGetDeviceCount(int *count){
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaGetDeviceCount() called.");
     if(!fake_isInitialized()){
         fake_initialize();
@@ -14,10 +12,6 @@ API cudaError_t cudaGetDeviceCount(int *count){
     }
     if(count != nullptr){
         *count = fake_getDeviceCount();
-        if (fakecuda::ras::active()) { fake_setLastError(cudaSuccess); return cudaSuccess; }
-        auto payload = make_trace_payload();
-        if (payload) payload->add_int("count", *count);
-        TRACE_API_EX(CUDART, "cudaGetDeviceCount", "context_op", payload);
         fake_setLastError(cudaSuccess);
         return cudaSuccess;
     }
@@ -31,8 +25,6 @@ API cudaError_t cudaGetDeviceCount(int *count){
 REGISTER_CUDA_FUNCTION(cudaGetDeviceCount);
 
 API cudaError_t cudaGetDeviceProperties(cudaDeviceProp* prop, int device ){
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
     LOG_DEBUG(CUDART, "cudaGetDeviceProperties() called.");
     if(prop == nullptr){
         fake_setLastError(cudaErrorInvalidValue);
@@ -120,50 +112,35 @@ API cudaError_t cudaGetDeviceProperties(cudaDeviceProp* prop, int device ){
     prop->ipcEventSupported = fake_getDevProps(CU_DEVICE_ATTRIBUTE_IPC_EVENT_SUPPORTED, device);
     prop->clusterLaunch = fake_getDevProps(CU_DEVICE_ATTRIBUTE_CLUSTER_LAUNCH, device);
     prop->unifiedFunctionPointers = fake_getDevProps(CU_DEVICE_ATTRIBUTE_UNIFIED_FUNCTION_POINTERS, device);
-    if (fakecuda::ras::active()) { fake_setLastError(cudaSuccess); return cudaSuccess; }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_int("device", device);
-    if (payload) payload->add_string("name", prop->name);
-    TRACE_API_EX(CUDART, "cudaGetDeviceProperties", "context_op", payload);
     fake_setLastError(cudaSuccess);
     return cudaSuccess;
 }
 REGISTER_CUDA_FUNCTION(cudaGetDeviceProperties);
 API cudaError_t cudaGetDeviceProperties_v2(cudaDeviceProp* prop, int device ){
-    fakecuda::capture::WrapperCall capture_call;
     return cudaGetDeviceProperties(prop, device);
 }
 REGISTER_CUDA_FUNCTION(cudaGetDeviceProperties_v2);
 
 API cudaError_t cudaGetDevice (int* device){
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
-    LOG_DEBUG_NOENTRY(CUDART, "cudaGetDevice() called.");
-    if (!fakecuda::ras::active()) fakecuda::trace::maybe_record_wrapper_entry_api("cudaGetDevice");
+    LOG_DEBUG(CUDART, "cudaGetDevice() called.");
     if(device == nullptr){
         fake_setLastError(cudaErrorInvalidValue);
         return cudaErrorInvalidValue;
     }
     fake_getDevice(device);
-    if (fakecuda::ras::active()) { fake_setLastError(cudaSuccess); return cudaSuccess; }
     // fprintf(stderr, "[fakecuda] cudaGetDevice() called, device is %d\n", *device);
-    auto payload = make_trace_payload();
-    if (payload) payload->add_int("device", *device);
-    TRACE_API_LIGHT_EX(CUDART, "cudaGetDevice", "context_op", payload);
     fake_setLastError(cudaSuccess);
     return cudaSuccess;
 }
 REGISTER_CUDA_FUNCTION(cudaGetDevice);
 
 API const char *cudaGetErrorName(cudaError_t error){
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaGetErrorName() called.");
     return "cudaSuccess";
 }
 REGISTER_CUDA_FUNCTION(cudaGetErrorName);
 
 API const char *cudaGetErrorString(cudaError_t error){
-    fakecuda::capture::WrapperCall capture_call;
     LOG_DEBUG(CUDART, "cudaGetErrorString() called.");
     static char buf[64];
     snprintf(buf, sizeof(buf), "cudaError_%d", error);
@@ -172,21 +149,14 @@ API const char *cudaGetErrorString(cudaError_t error){
 REGISTER_CUDA_FUNCTION(cudaGetErrorString);
 
 API cudaError_t cudaGetLastError (){
-    fakecuda::capture::WrapperCall capture_call;
-    fakecuda::capture::count(fakecuda::capture::Counter::ApiCalls);
-    LOG_DEBUG_NOENTRY(CUDART, "cudaGetLastError() called.");
+    LOG_DEBUG(CUDART, "cudaGetLastError() called.");
     cudaError_t last = fake_getLastError();
-    if (fakecuda::ras::active()) { fake_setLastError(cudaSuccess); return last; }
-    auto payload = make_trace_payload();
-    if (payload) payload->add_int("error", static_cast<int>(last));
-    TRACE_API_LIGHT_EX(CUDART, "cudaGetLastError", "other", payload);
     fake_setLastError(cudaSuccess); // Reset last error after reporting it.
     return last;
 }
 REGISTER_CUDA_FUNCTION(cudaGetLastError);
 
 API cudaError_t cudaGetDriverEntryPointByVersion(const char *symbol, void **funcPtr, unsigned int cudaVersion, unsigned long long flags, enum cudaDriverEntryPointQueryResult *driverStatus){
-    fakecuda::capture::WrapperCall capture_call;
     (void)cudaVersion; (void)flags;
     if (!symbol || !funcPtr) return cudaErrorInvalidValue;
     *funcPtr = FunctionRegistry::instance().get_function(symbol);

@@ -8,7 +8,7 @@
 #include <time.h>
 #include <sys/mman.h>
 #include "fake_types.h"
-#include "capture_mode.hpp"
+#include "ras_capture.h"
 #include "../device/fake_device_core.h"
 
 #define METADATA_THRESHOLD (256 * 1024)  // 数据传输阈值256KB，尽可能的只传输meta data
@@ -91,155 +91,6 @@ inline const char* Logger::libNames[LIB_COUNT] = {
     "cuda","cudart","cublas","cublaslt","nvml","nccl"
 };
 
-namespace fakecuda::trace {
-
-inline bool trace_capture_enabled() {
-    if (!fakecuda::capture::generates_trace()) return false;
-    static bool initialized = false;
-    static bool enabled = false;
-    if (!initialized) {
-        const char* raw = getenv("FAKECUDA_TRACE");
-        enabled = raw != nullptr && strcmp(raw, "1") == 0;
-        initialized = true;
-    }
-    return enabled;
-}
-
-inline const char* canonical_debug_trace_api_name(const char* api) {
-    if (!api) {
-        return api;
-    }
-    if (strcmp(api, "cudaEventRecordWithFlags") == 0) {
-        return "cudaEventRecord";
-    }
-    if (strcmp(api, "cudaEventCreate") == 0) {
-        return "cudaEventCreateWithFlags";
-    }
-    if (strcmp(api, "cudaStreamCreateWithFlags") == 0 || strcmp(api, "cudaStreamCreateWithPriority") == 0) {
-        return "cudaStreamCreate";
-    }
-    if (strcmp(api, "ncclBcast") == 0) {
-        return "ncclBroadcast";
-    }
-    return api;
-}
-
-inline long long debug_entry_now_ns() {
-    struct timespec ts;
-    clock_gettime(CLOCK_REALTIME, &ts);
-    return static_cast<long long>(ts.tv_sec) * 1000000000LL + ts.tv_nsec;
-}
-
-inline long long& trace_writer_overhead_ns() {
-    thread_local long long overhead_ns = 0LL;
-    return overhead_ns;
-}
-
-inline long long current_trace_writer_overhead_ns() {
-    return trace_writer_overhead_ns();
-}
-
-inline long long logical_host_time_ns(long long raw_ns) {
-    const long long overhead_ns = current_trace_writer_overhead_ns();
-    if (raw_ns <= overhead_ns) {
-        return 0LL;
-    }
-    return raw_ns - overhead_ns;
-}
-
-inline void add_trace_writer_overhead_ns(long long overhead_ns) {
-    if (overhead_ns <= 0LL) {
-        return;
-    }
-    trace_writer_overhead_ns() += overhead_ns;
-}
-
-inline std::unordered_map<std::string, std::vector<long long>>& wrapper_entry_start_ns() {
-    thread_local std::unordered_map<std::string, std::vector<long long>> starts;
-    return starts;
-}
-
-inline long long sanitize_duration_ns(long long duration_ns) {
-    return duration_ns > 0LL ? duration_ns : 0LL;
-}
-
-inline std::string parse_debug_entry_api(const char* fmt) {
-    if (!fmt) {
-        return "";
-    }
-    std::string text(fmt);
-    const std::size_t first = text.find_first_not_of(" \t");
-    if (first == std::string::npos) {
-        return "";
-    }
-    text.erase(0, first);
-
-    const std::string called_suffix = " called.";
-    std::size_t suffix_pos = text.rfind(called_suffix);
-    if (suffix_pos == std::string::npos || suffix_pos + called_suffix.size() != text.size()) {
-        return "";
-    }
-
-    std::string api = text.substr(0, suffix_pos);
-    while (!api.empty() && (api.back() == ' ' || api.back() == '\t')) {
-        api.pop_back();
-    }
-    if (api.size() >= 2 && api.substr(api.size() - 2) == "()") {
-        api.erase(api.size() - 2);
-    }
-    if (api.empty()) {
-        return "";
-    }
-    for (const unsigned char ch : api) {
-        if (!(std::isalnum(ch) || ch == '_' || ch == ':')) {
-            return "";
-        }
-    }
-    return std::string(canonical_debug_trace_api_name(api.c_str()));
-}
-
-inline void maybe_record_wrapper_entry(const char* fmt) {
-    if (!trace_capture_enabled()) {
-        return;
-    }
-    const long long overhead_start_ns = debug_entry_now_ns();
-    const std::string api = parse_debug_entry_api(fmt);
-    add_trace_writer_overhead_ns(debug_entry_now_ns() - overhead_start_ns);
-    if (api.empty()) {
-        return;
-    }
-    fakecuda::capture::count(fakecuda::capture::Counter::WrapperEntries);
-    wrapper_entry_start_ns()[api].push_back(debug_entry_now_ns());
-}
-
-inline void maybe_record_wrapper_entry_api(const char* api) {
-    if (!trace_capture_enabled() || api == nullptr || api[0] == '\0') {
-        return;
-    }
-    fakecuda::capture::count(fakecuda::capture::Counter::WrapperEntries);
-    wrapper_entry_start_ns()[canonical_debug_trace_api_name(api)].push_back(debug_entry_now_ns());
-}
-
-inline bool take_wrapper_entry_start_ns(const char* api, long long* start_ns_out) {
-    if (!trace_capture_enabled() || api == nullptr || start_ns_out == nullptr) {
-        return false;
-    }
-    const std::string canonical_api = canonical_debug_trace_api_name(api);
-    auto& starts = wrapper_entry_start_ns();
-    auto it = starts.find(canonical_api);
-    if (it == starts.end() || it->second.empty()) {
-        return false;
-    }
-    *start_ns_out = it->second.back();
-    it->second.pop_back();
-    if (it->second.empty()) {
-        starts.erase(it);
-    }
-    return true;
-}
-
-}  // namespace fakecuda::trace
-
 // 日志宏定义
 #define LOG_ERROR(lib, fmt, ...) \
     do { \
@@ -261,18 +112,11 @@ inline bool take_wrapper_entry_start_ns(const char* api, long long* start_ns_out
     } while(0)
 #define LOG_DEBUG(lib, fmt, ...) \
     do { \
-        fakecuda::trace::maybe_record_wrapper_entry(fmt); \
         if (Logger::shouldLog(lib, LOG_DEBUG)) { \
             fprintf(stderr, "[fake%s][debug] " fmt "\n", Logger::libNames[lib], ##__VA_ARGS__); \
         } \
     } while(0)
 
-#define LOG_DEBUG_NOENTRY(lib, fmt, ...) \
-    do { \
-        if (Logger::shouldLog(lib, LOG_DEBUG)) { \
-            fprintf(stderr, "[fake%s][debug] " fmt "\n", Logger::libNames[lib], ##__VA_ARGS__); \
-        } \
-    } while(0)
 #endif
 
 #include <cstring>

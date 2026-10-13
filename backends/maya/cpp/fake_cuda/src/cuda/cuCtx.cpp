@@ -4,7 +4,6 @@
 
 
 API CUresult cuCtxGetCurrent(CUcontext *pctx){
-    fakecuda::capture::WrapperCall capture_call;
     try{
         LOG_DEBUG(CUDA, "cuCtxGetCurrent() called.");
         if (!fake_isInitialized()) return CUDA_ERROR_NOT_INITIALIZED;
